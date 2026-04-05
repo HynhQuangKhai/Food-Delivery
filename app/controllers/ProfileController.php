@@ -12,6 +12,11 @@ class ProfileController extends BaseController {
     public function index() {
         $this->requireAuth();
         
+        // Redirect admin to admin dashboard
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            $this->redirect('/admin/dashboard.php');
+        }
+        
         $userId = $this->getUserId();
         $user = User::findById($userId);
         

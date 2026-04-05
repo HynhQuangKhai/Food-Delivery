@@ -94,8 +94,20 @@ if ($selected_product > 0) {
 }
 
 $reviews = [];
+$review_images = [];
 while ($row = $result->fetch_assoc()) {
     $reviews[] = $row;
+    // Fetch images for this review
+    $img_stmt = $conn->prepare("SELECT image_url FROM review_images WHERE review_id = ?");
+    $img_stmt->bind_param("i", $row['id']);
+    $img_stmt->execute();
+    $img_result = $img_stmt->get_result();
+    $images = [];
+    while ($img_row = $img_result->fetch_assoc()) {
+        $images[] = $img_row['image_url'];
+    }
+    $review_images[$row['id']] = $images;
+    $img_stmt->close();
 }
 if ($selected_product > 0) {
     $stmt->close();
@@ -114,6 +126,8 @@ $replied_count = count(array_filter($reviews, function($r) { return !empty($r['a
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews Management - Admin</title>
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../responsive.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -443,10 +457,22 @@ $replied_count = count(array_filter($reviews, function($r) { return !empty($r['a
             color: white;
         }
         
-        .no-reviews {
-            text-align: center;
-            padding: 50px;
-            color: #666;
+        .review-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .review-images img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .review-images img:hover {
+            transform: scale(1.05);
         }
         
         @media (max-width: 1200px) {
@@ -590,6 +616,14 @@ $replied_count = count(array_filter($reviews, function($r) { return !empty($r['a
                             
                             <div class="review-text">"<?php echo htmlspecialchars($review['comment']); ?>"</div>
                             
+                            <?php if (!empty($review_images[$review['id']])): ?>
+                            <div class="review-images">
+                                <?php foreach ($review_images[$review['id']] as $img_url): ?>
+                                    <img src="<?php echo '../' . $img_url; ?>" alt="Review Image" onclick="window.open(this.src, '_blank')">
+                                <?php endforeach; ?>
+                            </div>
+                            <?php endif; ?>
+                            
                             <?php if (!empty($review['admin_reply'])): ?>
                             <div class="admin-reply">
                                 <div class="admin-reply-header">
@@ -628,5 +662,6 @@ $replied_count = count(array_filter($reviews, function($r) { return !empty($r['a
             </div>
         </div>
     </div>
+    <script src="../theme.js"></script>
 </body>
 </html>

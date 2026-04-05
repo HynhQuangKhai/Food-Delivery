@@ -51,6 +51,8 @@ closeAdminDBConnection($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Messages - Admin</title>
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../responsive.css">
     <style>
         * {
             margin: 0;
@@ -170,6 +172,7 @@ closeAdminDBConnection($conn);
             <a href="orders.php">📦 Orders</a>
             <a href="vouchers.php">🎫 Vouchers</a>
             <a href="contact_messages.php" class="active">📧 Contact Messages</a>
+            <a href="reviews.php">⭐ Reviews</a>
         </div>
         
         <div class="main-content">
@@ -233,5 +236,6 @@ closeAdminDBConnection($conn);
             </table>
         </div>
     </div>
+    <script src="../theme.js"></script>
 </body>
 </html>

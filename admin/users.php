@@ -162,6 +162,8 @@ closeAdminDBConnection($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users - Admin</title>
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../responsive.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -249,6 +251,7 @@ closeAdminDBConnection($conn);
         }
         .role-admin { background: #667eea; color: white; }
         .role-user { background: #95a5a6; color: white; }
+        .role-deliverer { background: #f39c12; color: white; }
     </style>
 </head>
 <body>
@@ -265,6 +268,7 @@ closeAdminDBConnection($conn);
             <a href="orders.php">📦 Orders</a>
             <a href="vouchers.php">🎫 Vouchers</a>
             <a href="contact_messages.php">📧 Contact Messages</a>
+            <a href="reviews.php">⭐ Reviews</a>
         </div>
         
         <div class="main-content">
@@ -315,8 +319,9 @@ closeAdminDBConnection($conn);
                         <div class="form-group">
                             <label>Role</label>
                             <select name="role">
-                                <option value="user" <?php echo ($edit_user['role'] ?? 'user') === 'user' ? 'selected' : ''; ?>>User</option>
-                                <option value="admin" <?php echo ($edit_user['role'] ?? 'user') === 'admin' ? 'selected' : ''; ?>>Admin</option>
+                                <option value="user" <?php echo ($edit_user['role'] ?? 'user') === 'user' ? 'selected' : ''; ?>>👤 User</option>
+                                <option value="deliverer" <?php echo ($edit_user['role'] ?? 'user') === 'deliverer' ? 'selected' : ''; ?>>🚚 Deliverer</option>
+                                <option value="admin" <?php echo ($edit_user['role'] ?? 'user') === 'admin' ? 'selected' : ''; ?>>🛡️ Admin</option>
                             </select>
                         </div>
                     </div>
@@ -361,8 +366,9 @@ closeAdminDBConnection($conn);
                         <div class="form-group">
                             <label>Role</label>
                             <select name="role">
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
+                                <option value="user">👤 User</option>
+                                <option value="deliverer">🚚 Deliverer</option>
+                                <option value="admin">🛡️ Admin</option>
                             </select>
                         </div>
                     </div>
@@ -388,7 +394,14 @@ closeAdminDBConnection($conn);
                 </thead>
                 <tbody>
                     <?php foreach ($users as $user): 
-                        $role_class = ($user['role'] ?? 'user') === 'admin' ? 'role-admin' : 'role-user';
+                        $role = $user['role'] ?? 'user';
+                        if ($role === 'admin') {
+                            $role_class = 'role-admin';
+                        } elseif ($role === 'deliverer') {
+                            $role_class = 'role-deliverer';
+                        } else {
+                            $role_class = 'role-user';
+                        }
                         $is_super_admin_user = $user['username'] === 'admin';
                     ?>
                     <tr>
@@ -396,9 +409,10 @@ closeAdminDBConnection($conn);
                         <td><?php echo htmlspecialchars($user['username']); ?> <?php if ($is_super_admin_user) echo '<span style="color: #f39c12;">👑</span>'; ?></td>
                         <td><?php echo htmlspecialchars($user['full_name']); ?></td>
                         <td><?php echo htmlspecialchars($user['email']); ?></td>
-                        <td><span class="role-badge <?php echo $role_class; ?>"><?php echo ucfirst($user['role'] ?? 'user'); ?></span></td>
+                        <td><span class="role-badge <?php echo $role_class; ?>"><?php echo ucfirst($role); ?></span></td>
                         <td><?php echo date('M d, Y', strtotime($user['created_at'])); ?></td>
                         <td class="actions">
+                            <a href="user_detail.php?id=<?php echo $user['id']; ?>" class="edit-btn" style="background: #28a745;">View</a>
                             <?php if (isset($_SESSION['is_super_admin']) && !$is_super_admin_user): ?>
                                 <a href="?edit=<?php echo $user['id']; ?>" class="edit-btn">Edit</a>
                             <?php endif; ?>
@@ -410,5 +424,6 @@ closeAdminDBConnection($conn);
             </table>
         </div>
     </div>
+    <script src="../theme.js"></script>
 </body>
 </html>

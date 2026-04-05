@@ -92,6 +92,8 @@ if (isset($_GET['edit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Items - Admin</title>
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../responsive.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -229,7 +231,10 @@ if (isset($_GET['edit'])) {
 </head>
 <body>
     <div class="admin-header">
-        <h1>🍔 Food Delivery Admin</h1>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <h1>🍔 Food Delivery Admin</h1>
+            <button id="theme-toggle-btn" style="background: #667eea; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">🌙</button>
+        </div>
         <a href="logout.php" class="logout-btn">Logout</a>
     </div>
     
@@ -241,6 +246,7 @@ if (isset($_GET['edit'])) {
             <a href="orders.php">📦 Orders</a>
             <a href="vouchers.php">🎫 Vouchers</a>
             <a href="contact_messages.php">📧 Contact Messages</a>
+            <a href="reviews.php">⭐ Reviews</a>
         </div>
         
         <div class="main-content">
@@ -349,5 +355,6 @@ if (isset($_GET['edit'])) {
             </table>
         </div>
     </div>
+    <script src="../theme.js"></script>
 </body>
 </html>

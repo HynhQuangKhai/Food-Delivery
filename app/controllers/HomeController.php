@@ -11,6 +11,11 @@ class HomeController extends BaseController {
     public function index() {
         $this->requireAuth();
         
+        // Redirect admin to admin dashboard
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            $this->redirect('/admin/dashboard.php');
+        }
+        
         $filters = [
             'category' => $_GET['category'] ?? '',
             'search' => $_GET['search'] ?? ''

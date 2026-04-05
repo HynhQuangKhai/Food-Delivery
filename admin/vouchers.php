@@ -83,6 +83,8 @@ if (isset($_GET['edit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vouchers - Admin</title>
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../responsive.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -232,6 +234,7 @@ if (isset($_GET['edit'])) {
             <a href="orders.php">📦 Orders</a>
             <a href="vouchers.php" class="active">🎫 Vouchers</a>
             <a href="contact_messages.php">📧 Contact Messages</a>
+            <a href="reviews.php">⭐ Reviews</a>
         </div>
         
         <div class="main-content">
@@ -315,5 +318,6 @@ if (isset($_GET['edit'])) {
             </table>
         </div>
     </div>
+    <script src="../theme.js"></script>
 </body>
 </html>

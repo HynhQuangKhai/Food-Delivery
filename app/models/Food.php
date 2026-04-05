@@ -21,6 +21,20 @@ class Food extends BaseModel {
     ];
     
     public static function getImageUrl($foodId) {
+        // First try to get from database
+        $conn = self::getConnection();
+        $stmt = $conn->prepare("SELECT image_url FROM food_items WHERE id = ?");
+        $stmt->bind_param("i", $foodId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $item = $result->fetch_assoc();
+        $stmt->close();
+        
+        if ($item && !empty($item['image_url'])) {
+            return $item['image_url'];
+        }
+        
+        // Fallback to hardcoded mapping
         return self::$productImages[$foodId] ?? 'images/placeholder.jpg';
     }
     

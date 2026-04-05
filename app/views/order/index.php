@@ -62,6 +62,34 @@
                             </span>
                         </div>
                         
+                        <!-- Voucher Section -->
+                        <div class="voucher-section" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <label>🎫 Voucher Code:</label>
+                            <div style="display: flex; gap: 10px; margin-top: 8px;">
+                                <input type="text" name="voucher_code" id="voucher_code" 
+                                       value="<?php echo htmlspecialchars($_POST['voucher_code'] ?? ''); ?>"
+                                       placeholder="Enter voucher code (e.g., SAVE10)"
+                                       style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                <button type="submit" name="apply_voucher" 
+                                        style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    Apply
+                                </button>
+                            </div>
+                            <?php if (!empty($voucherResult)): ?>
+                                <?php if ($voucherResult['success']): ?>
+                                    <div style="margin-top: 10px; padding: 10px; background: #d4edda; color: #155724; border-radius: 5px; font-size: 0.9em;">
+                                        ✅ Voucher applied! You saved $<?php echo number_format($voucherResult['discount_amount'], 2); ?> 
+                                        (<?php echo $voucherResult['discount_percent']; ?>% off)<br>
+                                        <strong>New Total: $<?php echo number_format($voucherResult['final_amount'], 2); ?></strong>
+                                    </div>
+                                <?php else: ?>
+                                    <div style="margin-top: 10px; padding: 10px; background: #f8d7da; color: #721c24; border-radius: 5px; font-size: 0.9em;">
+                                        ❌ <?php echo htmlspecialchars($voucherResult['message']); ?>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                        
                         <div class="confirm-address">
                             <label>📍 Delivery Address:</label>
                             <textarea name="delivery_address" rows="3" required 

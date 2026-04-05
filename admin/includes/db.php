@@ -35,6 +35,8 @@ function checkAdminLogin() {
     
     // Check if user is logged in as admin role
     if (isset($_SESSION['user_id']) && isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+        // Set super admin flag for all admin users from database
+        $_SESSION['is_super_admin'] = true;
         return;
     }
     
