@@ -50,10 +50,6 @@ A comprehensive food delivery platform with role-based access control, responsiv
 
 ## Default Login Credentials
 
-### Super Admin
-- **Username:** `admin`
-- **Password:** `admin123`
-
 ### Test Accounts
 Register new accounts through the login page or use existing database users.
 
